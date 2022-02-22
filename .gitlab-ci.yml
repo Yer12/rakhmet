@@ -1,7 +1,8 @@
 # .gitlab-ci.yml file to be placed in the root of your repository
-
+image: node:latest
+stages:
+  - deploy
 pages: # the job must be named pages
-  image: node:latest
   stage: deploy
   script:
     - npm ci
