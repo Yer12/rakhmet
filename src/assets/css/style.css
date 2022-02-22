@@ -1,0 +1,19 @@
+section > .restaraunt > .rest > .textinfo {
+  margin-right: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  width: 100%;
+}
+.between {
+
+}
+
+.betweenline {
+  height: 1px;
+  width: 100%;
+  margin: 0px 16px;
+  background: #ececec;
+}
+
