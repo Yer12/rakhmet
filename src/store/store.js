@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios";
+import api from "../services/api";
+import router from "../router";
 
 Vue.use(Vuex);
 
@@ -9,6 +10,8 @@ export default new Vuex.Store({
         products: [],
         product: null,
         cart: [],
+        user: {},
+        login: false,
     },
     getters: {
         cartItemCount(state) {
@@ -60,17 +63,24 @@ export default new Vuex.Store({
             }
 
 
+        },
+        LOGIN(state,resp) {
+            localStorage.setItem("token", resp.access_token)
+            state.login = true
+        },
+        REGISTER(state,resp) {
+            console.log(resp)
         }
     },
     actions: {
         getProducts({commit}) {
-            axios.get("http://142.93.107.238/api/restaurants")
+            api.get("/restaurants")
                 .then(res => {
                     commit('SET_PRODUCTS',res.data)
                 })
         },
         getProduct({commit}, productId) {
-            axios.get(`http://142.93.107.238/api/menu/${productId}`)
+            api.get(`/menu/${productId}`)
                 .then(res => {
                     commit('SET_PRODUCT',res.data)
                 })
@@ -80,6 +90,31 @@ export default new Vuex.Store({
         },
         removeProductToCart({commit}, p) {
             commit('REMOVE_PRODUCT_CART', p)
+        },
+        registerUser({commit}, user) {
+            api.post("register", {
+                email: user.email,
+                password: user.password
+            })
+                .then(response => {
+                    commit('REGISTER',response.data)
+                })
+        },
+        loginUser({commit}, user) {
+            api.post("login", {
+                email: user.email,
+                password: user.password
+            })
+                .then(response => {
+                    commit('LOGIN', response.data.data);
+                    router.push("/orders")
+                    console.log("Log in!")
+                })
+                .catch(error => {
+                    console.log("Password or email incorrect!\n");
+                    console.log("");
+                    console.log(error)
+                })
         }
     }
 });

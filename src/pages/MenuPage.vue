@@ -33,7 +33,6 @@
           v-for="(p, i) in pr.products"
           :key="i"
         >
-<!--          {{p.product_id}}-->
           <ProductListItem
             :product="p"
             :productId="p.product_id"
@@ -186,5 +185,8 @@ nav {
   margin-left: 16px;
   color: #8f8f8f;
   text-align: start;
+}
+p {
+  margin: 20px;
 }
 </style>
